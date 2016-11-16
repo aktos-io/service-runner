@@ -1,4 +1,4 @@
-# Usage 
+# Usage in development
 
 Intended use is as follows: 
 
@@ -24,6 +24,7 @@ You may run your services as
 $ /path/to/foo/run
 ```
 
+# Usage in production (in server)
 If you want to run your services when your system boots, place following command into `/etc/rc.local` (before `exit 0` of course): 
 
 ```
@@ -32,6 +33,7 @@ If you want to run your services when your system boots, place following command
 ...
 ```
 
+# Debugging your services
 If you want to debug or interact with your services after they are started in a headless server, you may simply get the appropriate tmux session attached: 
 
 ```
@@ -47,4 +49,5 @@ $ sudo tmux attach -t foo_run
 * Easily extend your service script
 * Use same service script as you use while development
 * Distribute service (and development!) script along with your project folder 
-* Service scripts are dead simple bash scripts 
+* Service scripts are simple bash scripts, so you are not limited with some configuration options (like Gulp)
+* Almost no learning curve needed
