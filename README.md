@@ -44,10 +44,10 @@ $ sudo tmux attach -t foo_run
 
 # Advantages over supervisor
 
-* Debug your services scripts easily 
-* Painless interaction with your services
-* Easily extend your service script
-* Use same service script as you use while development
-* Distribute service (and development!) script along with your project folder 
-* Service scripts are simple bash scripts, so you are not limited with some configuration options (like Gulp)
-* Almost no learning curve needed
+* Debug your services easily 
+* Painless interaction with your services after they are started on a headless server
+* Easily extend your service script (by using simple BASH knowledge)
+* Use same service script both in development and production (no reconfiguring and testing)
+* Distribute service (and development!) script(s) along with your project folder 
+* Service scripts are bash scripts, so you are not limited with some configuration options (like Gulp)
+* Almost no learning curve
