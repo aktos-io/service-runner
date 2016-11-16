@@ -1,3 +1,11 @@
+# Overview 
+
+This utility is indended to be used much like [supervisor](http://supervisord.org/), to run blocker applications in background, when system boots. 
+
+Creating and using service scripts while development is highly encouraged. When you shutdown your computer and restart, you will need to restart all scripts/programs that will be needed by your project (eg. your custom webserver, a debugging server, your preferred build system, your preferred text editor, etc.). 
+
+One option is to start all these services manually, one by one. The other option is writing a simple service script to make them run with one command. 
+
 # Usage in development
 
 Intended use is as follows: 
