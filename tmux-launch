@@ -7,30 +7,43 @@
 AVAILABLE_WINDOW=0
 run-in-tmux() {
     list_of_commands=("$@")
-    #echo "run in tmux: ${SESSION}: $@"
-    tmux new-window -t ${SESSION}:${AVAILABLE_WINDOW}
-    tmux send-keys -t ${SESSION}:${AVAILABLE_WINDOW} "PATH=$PATH" C-m
-    tmux send-keys -t ${SESSION}:${AVAILABLE_WINDOW} "NODE_PATH=$NODE_PATH" C-m
-    tmux send-keys -t ${SESSION}:${AVAILABLE_WINDOW} "clear" C-m
+
+    # DEBUG
+    #echo "DEBUG :: run in tmux: ${_SESSION_ID}: $@"
+
+    if [ "${AVAILABLE_WINDOW}" -gt "0" ]; then  
+        tmux new-window -t ${_SESSION_ID}:${AVAILABLE_WINDOW}
+    fi
+    tmux send-keys -t ${_SESSION_ID}:${AVAILABLE_WINDOW} "PATH=$PATH" C-m
+    tmux send-keys -t ${_SESSION_ID}:${AVAILABLE_WINDOW} "NODE_PATH=$NODE_PATH" C-m
+    tmux send-keys -t ${_SESSION_ID}:${AVAILABLE_WINDOW} "clear" C-m
     for i in "${list_of_commands[@]}"; do
-        tmux send-keys -t ${SESSION}:${AVAILABLE_WINDOW} "$i" C-m
+        tmux send-keys -t ${_SESSION_ID}:${AVAILABLE_WINDOW} "$i" C-m
     done
     AVAILABLE_WINDOW=$((${AVAILABLE_WINDOW}+1))
 }
 
 SESSION_BASE="$(basename "$0")"
+if [ "$1" == "--headless" ] || [ "$1" == "--background" ]; then
+	HEADLESS=true
+else
+	HEADLESS=false
+fi 
 
 start-tmux-session() {
-    SESSION_NUMBER=$1
-    SESSION="${SESSION_BASE}-$1"
-    #echo "Session name is: $SESSION"
+    _SESSION_ID=$1
+    echo "Starting service-runner tmux session: ${_SESSION_ID}"
     tmux start-server
-    tmux new-session -d -s ${SESSION}
+    tmux new-session -d -s ${_SESSION_ID}
+    if [ "$?" -ne "0" ]; then 
+	attach-tmux-session
+	exit 1
+    fi
 }
 
+
 attach-tmux-session() {
-    SESSION_NUMBER=$1
-    SESSION="${SESSION_BASE}-$1"
-    #echo "Session name is: $SESSION"
-    tmux attach -t $SESSION
+    if [ "$HEADLESS" == false ]; then 
+        tmux attach -t ${_SESSION_ID}
+    fi
 }

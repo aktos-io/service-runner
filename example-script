@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# define constant names
+CURR_FILE="${BASH_SOURCE[0]}"
+CURR_DIR="$( cd "$( dirname "$CURR_FILE" )" && pwd )"
+PROJECT_NAME="$(basename $CURR_DIR)"
+SESSION_NAME="${PROJECT_NAME}_$(basename ${CURR_FILE})"
+LIB_DIR="/etc/aktos/service-runner"
+
+if [ -f "tmux-launch" ]; then 
+    LIB_DIR="$CURR_DIR"
+fi
+# include lib(s)
+. "${LIB_DIR}/tmux-launch"
+
+# exports
+#export PATH="${TOOLS_DIR}/aktos-espruino-tools:${PATH}"
+
+# change working directory
+# cd $CURR_DIR
+cd /var/www
+
+echo "$SESSION_NAME"
+
+# run commands in tmux session
+start-tmux-session $SESSION_NAME
+run-in-tmux "ls"
+run-in-tmux "top"
+run-in-tmux "cd .." "ls -l"
+
+# Show in terminal (do not use if you 
+attach-tmux-session "$SESSION_NAME"
