@@ -11,7 +11,7 @@ SESSION_NAME="${PROJECT_NAME%%.*}"
 source "${LIB_DIR}/tmux-launch"
 
 # change working directory
-cd /var/www
+cd $CURR_DIR
 
 # start new tmux session (if there is no duplicate)
 start-tmux-session "$SESSION_NAME"
