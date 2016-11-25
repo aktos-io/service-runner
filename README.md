@@ -33,12 +33,10 @@ $ /path/to/foo/run
 ```
 
 # Usage in production (in server)
-If you want to run your services when your system boots, place following command into `/etc/rc.local` (before `exit 0` of course): 
+If you want to run your services when your system boots, place following command into `/etc/rc.local` before `exit 0` line:
 
 ```
-...
-/path/to/foo/run --background 
-...
+/bin/bash -c "/path/to/your.service --background"
 ```
 
 # Debugging your services
