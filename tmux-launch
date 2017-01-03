@@ -35,9 +35,10 @@ start-tmux-session() {
     echo "Starting service-runner tmux session: ${_SESSION_ID}"
     tmux start-server
     tmux new-session -d -s ${_SESSION_ID}
+    tmux send-keys "tmux set -g base-index 0" C-m
     if [ "$?" -ne "0" ]; then 
-	attach-tmux-session
-	exit 1
+	    attach-tmux-session
+	    exit 1
     fi
 }
 
