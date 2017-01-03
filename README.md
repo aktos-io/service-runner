@@ -36,7 +36,7 @@ $ /path/to/foo/run
 If you want to run your services when your system boots, place following command into `/etc/rc.local` before `exit 0` line:
 
 ```
-/bin/bash -c "/path/to/your.service --background"
+sudo -i -u someuser "/path/to/your.service --background"
 ```
 
 # Debugging your services
