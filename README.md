@@ -39,6 +39,11 @@ If you want to run your services when your system boots, place following command
 sudo -i -u someuser /path/to/your.service --background
 ```
 
+> TIP: Create GUI launchers not only passing the script paths as "command" because it causes launching your service without setting environment variables. Use your script as: 
+> ```
+> bash -i -c /path/to/your.service
+> ```
+
 # Debugging your services
 If you want to debug or interact with your services after they are started in a headless server, you may simply get the appropriate tmux session attached: 
 
