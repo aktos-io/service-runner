@@ -32,7 +32,7 @@ fi
 
 start-tmux-session() {
     local _SESSION_ID=$1
-    tmux a -t ${_SESSION_ID} && (echo "attaching existing session..."; exit 0;)
+    tmux a -t ${_SESSION_ID} && exit 0;
     echo "Starting service-runner tmux session: ${_SESSION_ID}"
     tmux start-server
     tmux new-session -d -s ${_SESSION_ID}
