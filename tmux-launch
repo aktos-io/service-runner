@@ -49,3 +49,9 @@ attach-tmux-session() {
         tmux attach -t ${_SESSION_ID}
     fi
 }
+
+set_title () {
+    local title=$*
+    printf '\033]0;%s\007' "$title"
+}
+
