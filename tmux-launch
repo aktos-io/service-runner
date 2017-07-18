@@ -55,13 +55,19 @@ calc-session-name () {
     # output: [DIRNAME]-[FILENAME (without extension)]
     local file_path=$(realpath $1)
     local curr_dir=$(dirname $file_path)
-    local PROJECT_NAME="$(basename $curr_dir)-$(basename $file_path)"
-    echo "${PROJECT_NAME%%.*}"
+    local name="$(basename $curr_dir)-$(basename $file_path)"
+    name=${name#.}
+    local session_name="${name%%.*}"
+    echo $session_name
 }
 
 launch-service () {
     local session_name=$1
     _SESSION_ID=$session_name
+    if [[ ! $session_name ]]; then
+        echo "Session name can not be empty!" 
+        exit 5
+    fi
 
     if [[ $(tmux ls | grep $session_name) ]]; then
         if [[ $HEADLESS ]]; then 
