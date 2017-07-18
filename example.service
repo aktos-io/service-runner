@@ -1,25 +1,11 @@
 #!/bin/bash
-
-# define constants
-CURR_FILE=$(readlink -f "$0")
-CURR_DIR=$(dirname $CURR_FILE)
-PROJECT_NAME="$(basename $CURR_DIR)_$(basename $CURR_FILE)"
-SESSION_NAME="${PROJECT_NAME%%.*}"
-
-# include lib(s)
-source "/etc/aktos/service-runner/tmux-launch"
-
-
-# change working directory
-cd $CURR_DIR
-
-# start new tmux session (if there is no duplicate)
-start-tmux-session "$SESSION_NAME"
+#!/bin/bash
+set_dir () { DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"; }; set_dir
+safe_source () { source $1; set_dir; }
+safe_source /etc/aktos/service-runner/tmux-launch
+launch-service $(calc-session-name "$0")
 
 # run commands in tmux session
-run-in-tmux "ls"
+cd "$DIR/../"
 run-in-tmux "top"
-run-in-tmux "cd .." "ls -l"
-
-# Show in terminal if not `--headless`
-attach-tmux-session "$SESSION_NAME"
+run-in-tmux "ls -la"

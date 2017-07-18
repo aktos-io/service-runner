@@ -55,3 +55,19 @@ set_title () {
     printf '\033]0;%s\007' "$title"
 }
 
+
+calc-session-name () {
+    # input: file path
+    # output: [DIRNAME]-[FILENAME (without extension)]
+    local file_path=$(realpath $1)
+    local curr_dir=$(dirname $file_path)
+    local PROJECT_NAME="$(basename $curr_dir)-$(basename $file_path)"
+    echo "${PROJECT_NAME%%.*}"
+}
+
+launch-service () {
+    local session_name=$1
+    set_title $session_name
+    start-tmux-session $session_name    
+    trap attach-tmux-session EXIT
+}
