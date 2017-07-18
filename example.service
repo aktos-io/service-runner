@@ -1,5 +1,4 @@
 #!/bin/bash
-#!/bin/bash
 set_dir () { DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"; }; set_dir
 safe_source () { source $1; set_dir; }
 safe_source /etc/aktos/service-runner/tmux-launch
