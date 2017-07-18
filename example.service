@@ -1,10 +1,8 @@
 #!/bin/bash
-set_dir () { DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"; }; set_dir
-safe_source () { source $1; set_dir; }
-safe_source /etc/aktos/service-runner/tmux-launch
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+. /etc/aktos/service-runner/tmux-launch
 launch-service $(calc-session-name "$0")
 
 # run commands in tmux session
-cd "$DIR/../"
 run-in-tmux "top"
 run-in-tmux "ls -la"
