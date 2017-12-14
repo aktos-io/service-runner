@@ -31,7 +31,6 @@ else
 fi 
 
 start-tmux-session() {
-    [[ $DIR ]] && cd $DIR
     [[ $HEADLESS ]] && HEADLESS_MSG="in the background "
     echo "Starting service-runner tmux session $HEADLESS_MSG: ${_SESSION_ID}"
     tmux start-server
