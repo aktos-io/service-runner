@@ -55,9 +55,7 @@ calc-session-name () {
     local file_path=$(realpath $1)
     local curr_dir=$(dirname $file_path)
     local name="$(basename $curr_dir)-$(basename $file_path)"
-    name=${name#.}
-    local session_name="${name%%.*}"
-    echo $session_name
+    echo $name | sed "s/[\.\/]/-/g"
 }
 
 launch-service () {
