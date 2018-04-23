@@ -1,7 +1,7 @@
 #!/bin/bash
 DIR="$(dirname "$(readlink -f "$0")")"
 
-. /etc/aktos/service-runner/tmux-launch
+. $DIR/tmux-launch
 launch-service $(calc-session-name "$0")
 
 # run commands in tmux session
