@@ -52,7 +52,7 @@ set_title () {
 calc-session-name () {
     # input: file path
     # output: [DIRNAME]-[FILENAME (without extension)]
-    local file_path=$(realpath $1)
+    local file_path=$(realpath ${1%.service})
     local curr_dir=$(dirname $file_path)
     local name="$(basename $curr_dir)-$(basename $file_path)"
     echo $name | sed "s/[\.\/]/-/g"

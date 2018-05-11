@@ -1,8 +1,10 @@
 #!/bin/bash
+SCRIPT="$(readlink -f "$0")"
 DIR="$(dirname "$(readlink -f "$0")")"
-
-. $DIR/tmux-launch
-launch-service $(calc-session-name "$0")
+echo "This script is in $DIR, script is: $SCRIPT"
+cd $DIR
+. $DIR/dcs/tools/service-runner/tmux-launch
+launch-service $(calc-session-name $SCRIPT)
 
 # run commands in tmux session
 run-in-tmux "top"
