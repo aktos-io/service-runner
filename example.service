@@ -1,9 +1,11 @@
 #!/bin/bash
-SCRIPT="$(readlink -f "$0")"
-DIR="$(dirname "$(readlink -f "$0")")"
-cd $DIR
-. $DIR/dcs/tools/service-runner/tmux-launch
-launch-service $(calc-session-name $SCRIPT)
+set -eu -o pipefail
+safe_source () { [[ ! -z ${1:-} ]] && source $1; _dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; _sdir=$(dirname "$(readlink -f "$0")"); }; safe_source
+# end of bash boilerplate
+
+cd $_sdir 
+safe_source $_sdir/tmux-launch
+launch-service $(calc-session-name $(readlink -f "$0")) # dirname-scriptname
 
 # run commands in tmux session
 run-in-tmux "top"
