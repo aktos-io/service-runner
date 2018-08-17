@@ -3,6 +3,7 @@
 # help:
 #
 # background: run in background (good for headless server)
+set +ue
 
 AVAILABLE_WINDOW=0
 run-in-tmux() {
