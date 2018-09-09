@@ -1,0 +1,39 @@
+#!/bin/bash
+set -eu -o pipefail
+safe_source () { [[ ! -z ${1:-} ]] && source $1; _dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; _sdir=$(dirname "$(readlink -f "$0")"); }; safe_source
+# end of bash boilerplate
+
+name=${1:-}
+[[ -z $name ]] && { echo "Name is required"; exit 2; }
+name=$name.service
+
+[[ -f $name ]] && { echo "Service already exists, exiting."; exit 3; }
+
+tmp=$(mktemp)
+
+cat <<'SAMPLE' > $tmp
+#!/bin/bash
+set -eu -o pipefail
+safe_source () { [[ ! -z ${1:-} ]] && source $1; _dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; _sdir=$(dirname "$(readlink -f "$0")"); }; safe_source
+# end of bash boilerplate
+
+cd $_sdir
+safe_source SOURCE_OF_TMUX_LAUNCH
+#safe_source $_sdir/tmux-launch
+launch-service $(calc-session-name $(readlink -f "$0")) # dirname-scriptname
+
+# run commands in tmux session
+run-in-tmux "top"
+run-in-tmux "ls -la"
+
+SAMPLE
+
+rhs=$_sdir/tmux-launch
+#escaped_lhs=$(printf '%s\n' "$lhs" | sed 's:[][\/.^$*]:\\&:g')
+escaped_rhs=$(printf '%s\n' "$rhs" | sed 's:[\/&]:\\&:g;$!s/$/\\/')
+
+cat $tmp | sed "s/SOURCE_OF_TMUX_LAUNCH/${escaped_rhs}/" > $name
+chmod +x $name
+rm $tmp
+
+$_sdir/gen-boot-command $name
