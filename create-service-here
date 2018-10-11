@@ -5,8 +5,6 @@ safe_source () { [[ ! -z ${1:-} ]] && source $1; _dir="$(cd "$(dirname "${BASH_S
 
 name=${1:-}
 [[ -z $name ]] && { echo "Name is required: $(basename $0) myproject"; exit 2; }
-name=${name%.service}.service
-
 [[ -f $name ]] && { echo "Service already exists, exiting."; exit 3; }
 
 tmp=$(mktemp)
