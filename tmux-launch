@@ -5,6 +5,11 @@
 # background: run in background (good for headless server)
 set +ue
 
+if [[ -z $HEADLESS ]]; then
+    HEADLESS=true
+    echo "WARNING: You should set HEADLESS variable in new version."
+fi
+
 AVAILABLE_WINDOW=0
 run-in-tmux() {
     list_of_commands=("$@")
@@ -24,12 +29,6 @@ run-in-tmux() {
     done
     AVAILABLE_WINDOW=$((${AVAILABLE_WINDOW}+1))
 }
-
-if [ "$1" == "--background" ]; then
-	HEADLESS=true
-else
-    HEADLESS=
-fi 
 
 start-tmux-session() {
     [[ $HEADLESS ]] && HEADLESS_MSG="in the background "
