@@ -40,7 +40,7 @@ start-tmux-session() {
 
 
 attach-tmux-session() {
-    [[ $HEADLESS ]] || tmux attach -t ${_SESSION_ID}
+    tmux attach -t ${_SESSION_ID}
 }
 
 set_title () {
@@ -67,15 +67,17 @@ launch-service () {
     fi
 
     if [[ $(tmux ls | grep $session_name) ]]; then
-        if [[ $HEADLESS ]]; then 
+        if $HEADLESS; then 
             echo "Session $session_name exists already, doing nothing."
         else 
             echo "Attaching to existing session..."
             attach-tmux-session
         fi
-        exit 1
+        exit 0
     fi 
     set_title $session_name
     start-tmux-session $session_name    
-    [[ $HEADLESS ]] || trap attach-tmux-session EXIT
+    if ! $HEADLESS; then
+        trap attach-tmux-session EXIT
+    fi
 }
