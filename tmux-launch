@@ -7,7 +7,7 @@ set +ue
 
 if [[ -z $HEADLESS ]]; then
     HEADLESS=true
-    echo "WARNING: You should set HEADLESS variable in new version."
+    echo "WARNING: You should explicitly set HEADLESS variable before sourcing. Default: HEADLESS=true"
 fi
 
 AVAILABLE_WINDOW=0
@@ -29,7 +29,7 @@ run-in-tmux() {
 }
 
 start-tmux-session() {
-    [[ $HEADLESS ]] && HEADLESS_MSG="in the background "
+    [[ "$HEADLESS" = "true" ]] && HEADLESS_MSG="in the background "
     echo "Starting service-runner tmux session $HEADLESS_MSG: ${_SESSION_ID}"
     tmux start-server
     tmux new-session -d -s ${_SESSION_ID}
