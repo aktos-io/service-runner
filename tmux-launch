@@ -20,9 +20,7 @@ run-in-tmux() {
     if [ "${AVAILABLE_WINDOW}" -gt "0" ]; then  
         tmux new-window -t ${_SESSION_ID}:${AVAILABLE_WINDOW}
     fi
-    tmux send-keys -t ${_SESSION_ID}:${AVAILABLE_WINDOW} "PATH=$PATH" C-m
-    tmux send-keys -t ${_SESSION_ID}:${AVAILABLE_WINDOW} "NODE_PATH=$NODE_PATH" C-m
-    sleep 0.1s
+    tmux send-keys -t ${_SESSION_ID}:${AVAILABLE_WINDOW} ". ~/.bashrc" C-m
     tmux send-keys -t ${_SESSION_ID}:${AVAILABLE_WINDOW} "clear" C-m
     for i in "${list_of_commands[@]}"; do
         tmux send-keys -t ${_SESSION_ID}:${AVAILABLE_WINDOW} "$i" C-m
